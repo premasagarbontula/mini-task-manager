@@ -1,17 +1,10 @@
 import type { Request, Response } from "express";
-import mongoose from "mongoose";
 import taskModel from "../models/Task.js";
-
-interface TaskParams {
-  id: string;
-}
 
 export const createTask = async (req: Request, res: Response) => {
   try {
     const { title, description } = req.body;
-    if (!title || !title.trim()) {
-      return res.status(400).json({ message: "Task title is required" });
-    }
+
     const newTask = {
       title: title.trim(),
       description: description?.trim(),
@@ -43,15 +36,13 @@ export const getTasks = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTask = async (req: Request<TaskParams>, res: Response) => {
+export const updateTask = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "Invalid task id",
-      });
-    }
     const { title, description, completed } = req.body;
 
     const task = await taskModel.findById(id);
@@ -89,15 +80,13 @@ export const updateTask = async (req: Request<TaskParams>, res: Response) => {
   }
 };
 
-export const deleteTask = async (req: Request<TaskParams>, res: Response) => {
+export const deleteTask = async (
+  req: Request<{ id: string }>,
+  res: Response,
+) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "Invalid task id",
-      });
-    }
     const task = await taskModel.findByIdAndDelete(id);
     if (!task) {
       return res.status(404).json({
