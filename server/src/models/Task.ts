@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-import { Document } from "mongoose";
 
-export interface ITask extends Document {
+export interface ITask {
   title: String;
-  description: String;
+  description?: String;
   completed: boolean;
 }
 
