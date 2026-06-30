@@ -17,6 +17,10 @@ app.use(
 
 app.use("/api/tasks", taskRoutes);
 
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
 const port = process.env.PORT || 5000;
 
 async function startServer() {
