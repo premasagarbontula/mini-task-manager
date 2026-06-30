@@ -1,9 +1,9 @@
-import axios from "axios";
 import TaskForm from "@/components/TaskForm";
 import TaskList from "@/components/TaskList";
+import { getTasks } from "@/services/taskService";
 
 export default async function Home() {
-  const response = await axios.get("http://localhost:5000/api/tasks");
+  const response = await getTasks();
   const tasks = response.data.tasks;
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen">
