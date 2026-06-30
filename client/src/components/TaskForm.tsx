@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
+import { createTask } from "@/services/taskService";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 const TaskForm = () => {
   const [task, setTask] = useState({ title: "", description: "" });
-
+  const router = useRouter();
   const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setTask((prev) => ({
       ...prev,
@@ -21,8 +23,16 @@ const TaskForm = () => {
     }));
   };
 
-  const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    try {
+      const res = await createTask(task);
+      alert(res.data.message);
+      setTask({ title: "", description: "" });
+      router.refresh();
+    } catch (error) {
+      getErrorMessage(error);
+    }
   };
 
   return (
