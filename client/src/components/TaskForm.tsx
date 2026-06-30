@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createTask } from "@/services/taskService";
 import { getErrorMessage } from "@/utils/getErrorMessage";
+
 const TaskForm = () => {
-  const [task, setTask] = useState({ title: "", description: "" });
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+  });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+
   const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setTask((prev) => ({
       ...prev,
@@ -25,49 +34,82 @@ const TaskForm = () => {
 
   const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError("");
+
     try {
-      const res = await createTask(task);
-      alert(res.data.message);
-      setTask({ title: "", description: "" });
+      await createTask(task);
+
+      setTask({
+        title: "",
+        description: "",
+      });
+
       router.refresh();
     } catch (error) {
-      getErrorMessage(error);
+      setError(getErrorMessage(error));
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form
-      className="max-w-lg mx-auto flex flex-col gap-4 bg-white shadow-lg rounded-xl p-6"
       onSubmit={handleSubmit}
+      className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-md"
     >
-      <div className="flex flex-col">
-        <label htmlFor="title">Title *</label>
-        <input
-          type="text"
-          value={task.title}
-          id="title"
-          placeholder="Enter title"
-          className="border rounded-md p-2 w-full"
-          onChange={handleTitleChange}
-        />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          value={task.description}
-          placeholder="Enter description"
-          className="border rounded-md p-2 w-full"
-          onChange={handleDescriptionChange}
-        ></textarea>
-      </div>
+      <div className="space-y-5">
+        <div>
+          <label
+            htmlFor="title"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
+            Title <span className="text-red-500">*</span>
+          </label>
 
-      <button
-        type="submit"
-        className="w-full bg-cyan-600 py-2 rounded-md text-white font-semibold hover:bg-cyan-700 transition"
-      >
-        Add Task
-      </button>
+          <input
+            id="title"
+            type="text"
+            value={task.title}
+            placeholder="Enter task title"
+            onChange={handleTitleChange}
+            className="w-full rounded-md border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="description"
+            className="mb-1 block text-sm font-medium text-slate-700"
+          >
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            rows={4}
+            value={task.description}
+            placeholder="Enter task description (optional)"
+            onChange={handleDescriptionChange}
+            className="w-full resize-none rounded-md border border-slate-300 px-3 py-2 outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+          />
+        </div>
+
+        {error && (
+          <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+            {error}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-md bg-cyan-600 py-2.5 font-semibold text-white transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {loading ? "Adding Task..." : "Add Task"}
+        </button>
+      </div>
     </form>
   );
 };

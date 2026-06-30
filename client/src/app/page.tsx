@@ -5,11 +5,22 @@ import { getTasks } from "@/services/taskService";
 export default async function Home() {
   const response = await getTasks();
   const tasks = response.data.tasks;
+
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-3">Mini Task Manager</h1>
-      <TaskForm />
-      <TaskList tasks={tasks} />
-    </div>
+    <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <header className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+          Mini Task Manager
+        </h1>
+        <p className="mt-2 text-slate-600">
+          Organize and manage your daily tasks efficiently.
+        </p>
+      </header>
+
+      <div className="space-y-6">
+        <TaskForm />
+        <TaskList tasks={tasks} />
+      </div>
+    </main>
   );
 }
