@@ -57,7 +57,7 @@ const TaskForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-md"
+      className="w-full rounded-xl bg-white p-6 shadow-md"
     >
       <div className="space-y-5">
         <div>

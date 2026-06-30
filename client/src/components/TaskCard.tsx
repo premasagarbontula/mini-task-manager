@@ -63,7 +63,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
   };
 
   return (
-    <div className="w-full rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+    <div className="w-full rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md">
       {isEditing ? (
         <div className="space-y-4">
           <div>
@@ -150,12 +150,12 @@ const TaskCard = ({ task }: TaskCardProps) => {
                 type="checkbox"
                 checked={task.completed}
                 onChange={toggleCompleted}
-                className="mt-1 h-5 w-5 cursor-pointer accent-cyan-600"
+                className="mt-1 h-4 w-4 flex-none cursor-pointer accent-cyan-600"
               />
 
               <div>
                 <h2
-                  className={`text-lg font-semibold ${
+                  className={`text-md font-semibold ${
                     task.completed
                       ? "text-slate-400 line-through"
                       : "text-slate-900"

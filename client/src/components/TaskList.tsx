@@ -7,7 +7,7 @@ interface TaskListProps {
 
 const TaskList = ({ tasks }: TaskListProps) => {
   return (
-    <section className="w-full max-w-2xl">
+    <section className="w-full">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-slate-800">Your Tasks</h2>
 
