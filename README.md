@@ -103,7 +103,7 @@ server/
 ### Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/premasagarbontula/mini-task-manager
 cd Mini-Task-Manager
 ```
 
