@@ -1,6 +1,20 @@
 # Mini Task Manager
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success)](https://mini-task-manager-eight.vercel.app/)
+
 A full-stack Task Manager application built with **Next.js**, **TypeScript**, **Node.js**, **Express**, and **MongoDB**. The application allows users to create, view, update, complete, and delete tasks through a clean and responsive interface.
+
+---
+
+## 📷 Screenshots
+
+### Task Form
+
+![Form](./screenshots/task-form.png)
+
+### Tasks
+
+![tasks](./screenshots/tasks.png)
 
 ---
 
